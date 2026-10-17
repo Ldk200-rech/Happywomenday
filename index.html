@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Women's Day</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-family: "Segoe UI", sans-serif;
+        color: white;
+        background:
+          radial-gradient(ellipse at top, #62264f, transparent 55%),
+          linear-gradient(135deg, #180c27, #3a1539, #140b25);
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        transform: translateY(-2px) scale(1.03);
+      }
+
+      /* Hiệu ứng nền */
+      #stars {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Chữ chạy hai bên màn hình */
+      .side-greeting {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 58px;
+        overflow: hidden;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .side-greeting.left {
+        left: 260px;
+      }
+
+      .side-greeting.right {
+        right: 260px;
+      }
+
+      .side-greeting-track {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        animation: floatTextUp 22s linear infinite;
+        will-change: transform;
+      }
+
+      .side-greeting.right .side-greeting-track {
+        animation-duration: 18s;
+        animation-delay: -9s;
+      }
+
+      .side-greeting-track span {
+        flex-shrink: 0;
+        writing-mode: vertical-rl;
+        transform: rotate(185deg);
+        white-space: nowrap;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: #ffe9a8;
+        text-shadow:
+          0 0 5px #ff69b4,
+          0 0 12px #ff69b4,
+          0 0 22px #ffd700;
+        animation: textGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes floatTextUp {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-50%);
+        }
+      }
+
+      @keyframes textGlow {
+        from {
+          opacity: 0.55;
+          filter: brightness(0.85);
+        }
+        to {
+          opacity: 1;
+          filter: brightness(1.35);
+        }
+      }
+
+      /* Nội dung chính */
+      main {
+        position: relative;
+        z-index: 2;
+        width: min(680px, calc(100% - 150px));
+        margin: auto;
+        padding: 35px 0 60px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .panel {
+        width: 100%;
+        padding: 30px 24px;
+        border: 1px solid rgba(255, 220, 160, 0.5);
+        border-radius: 26px;
+        background: rgba(37, 13, 43, 0.84);
+        box-shadow:
+          0 0 30px rgba(255, 105, 180, 0.18),
+          inset 0 0 25px rgba(255, 215, 0, 0.05);
+        text-align: center;
+        backdrop-filter: blur(12px);
+      }
+
+      h1 {
+        color: #ffe4a1;
+        text-shadow: 0 0 15px #ff69b4;
+        font-size: clamp(25px, 5vw, 42px);
+        margin: 10px 0 16px;
+      }
+
+      .subtitle {
+        color: #ffd8eb;
+        font-size: 20px;
+        line-height: 1.9;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px;
+        margin: 16px 0 12px;
+        border-radius: 12px;
+        border: 1px solid #d89abf;
+        outline: none;
+        color: white;
+        background: rgba(255, 255, 255, 0.08);
+        text-align: center;
+      }
+
+      input:focus {
+        border-color: #ffd700;
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+      }
+
+      .btn {
+        border: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        margin: 6px;
+        color: #34152b;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffe7a3, #ff9acb);
+        box-shadow: 0 5px 18px rgba(255, 105, 180, 0.2);
+      }
+
+      .btn.secondary {
+        color: white;
+        border: 1px solid #ffb6d9;
+        background: rgba(255, 105, 180, 0.15);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .photo {
+        width: 100%;
+        max-height: 330 px;
+        object-fit: contain;
+        border-radius: 10px;
+        border: 2px solid #ffd88a;
+        margin-top: 15px;
+        box-shadow: 0 0 24px rgba(255, 105, 180, 0.25);
+      }
+
+      .wish {
+        margin-top: 20px;
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid #ffd88a;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 105, 180, 0.14),
+          rgba(255, 215, 0, 0.08)
+        );
+        color: #ffe9d2;
+        line-height: 1.9;
+        font-size: 20px;
+      }
+
+      .heart {
+        color: #ff9acb;
+        font-size: 25px;
+        animation: heartbeat 1.3s infinite;
+      }
+
+      @keyframes heartbeat {
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      #flowerArea {
+        position: fixed;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .flower {
+        position: absolute;
+        bottom: -40px;
+        animation: rise linear forwards;
+        opacity: 0.9;
+      }
+
+      @keyframes rise {
+        to {
+          transform: translateY(-115vh) rotate(500deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .side-greeting {
+          width: 25px;
+        }
+
+        .side-greeting.left {
+          left: 3px;
+        }
+        .side-greeting.right {
+          right: 3px;
+        }
+
+        .side-greeting-track span {
+          font-size: 10px;
+          letter-spacing: 1px;
+        }
+
+        main {
+          width: calc(100% - 76px);
+        }
+
+        .panel {
+          padding: 24px 15px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="stars"></canvas>
+    <div id="flowerArea"></div>
+
+    <!-- Dải chữ chạy bên trái -->
+    <div class="side-greeting left">
+      <div class="side-greeting-track">
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+        <span>Happy Women's Day — Xiang 💖</span>
+        <span>Happy Women's Day — Xiang 🌷</span>
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+        <span>Happy Women's Day — Xiang 💖</span>
+        <span>Happy Women's Day — Xiang 🌷</span>
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+        <span>Happy Women's Day — Xiang 💖</span>
+        <span>Happy Women's Day — Xiang 🌷</span>
+      </div>
+    </div>
+
+    <!-- Dải chữ chạy bên phải -->
+    <div class="side-greeting right">
+      <div class="side-greeting-track">
+        <span>Happy Women's Day — Xiang 💗</span>
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌹</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+        <span>Happy Women's Day — Xiang 💗</span>
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌹</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+        <span>Happy Women's Day — Xiang 💗</span>
+        <span>Happy Women's Day — Xiang ✨</span>
+        <span>Happy Women's Day — Xiang 🌹</span>
+        <span>Happy Women's Day — Xiang 🌸</span>
+      </div>
+    </div>
+
+    <main>
+      <!-- Màn hình nhập mật khẩu -->
+      <section class="panel" id="login">
+        <div class="heart">✦ ✧ ✦</div>
+        <h1>HAPPY WOMEN' DAY - 20/10</h1>
+        <p class="subtitle">
+          Một món quà nhỏ xinh đang chờ bạn khám phá.<br />
+          Hãy nhập mật khẩu để mở nhé! 💗
+        </p>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Nhập mật khẩu..."
+          autocomplete="off"
+        />
+
+        <button class="btn" onclick="unlock()">✨ Mở món quà ✨</button>
+
+        <p id="error" style="color: #ffb6d9"></p>
+        <p class="subtitle"><i>Made with love — Xiang </i>🌷</p>
+      </section>
+
+      <!-- Màn hình chính -->
+      <section class="panel hidden" id="home">
+        <div class="heart">💖 🌸 💖</div>
+        <h1>HAPPY 20-10 XIANG NHA</h1>
+        <p class="subtitle"></p>
+
+        <button class="btn" onclick="showPhoto()">🌷Bí mật</button>
+
+        <button class="btn secondary" onclick="startFlowers()">
+          🌸 Tặng hoa nè :))
+        </button>
+
+        <button class="btn secondary" onclick="toggleMusic()">
+          🎵 Bật / Tắt nhạc
+        </button>
+
+        <div id="photoSection" class="hidden">
+          <img
+            class="photo"
+            src="gg.jpg"
+            alt="Ảnh lớp"
+            onerror="
+              this.style.display = 'none';
+              document.getElementById('photoError').classList.remove('hidden');
+            "
+          />
+
+          <p id="photoError" class="subtitle hidden">
+            Chưa tìm thấy ảnh. Hãy đặt ảnh lớp tên
+            <b>anh-lop.jpg</b> cùng thư mục với file HTML.
+          </p>
+
+          <div class="wish">
+            <h2>💐<i>Gửi những điều tốt đẹp nhất</i>💐</h2>
+            Chúc Cậu luôn vui vẻ, tự tin, mạnh mẽ và gặp thật nhiều điều may mắn
+            trong cuộc sống. Mong rằng mỗi ngày đều mang đến những nụ cười,
+            những cơ hội mới và thật nhiều yêu thương.
+            <br /><br />
+            <b>Happy Women's Day — Xiang 💖</b>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Nhạc nền: đặt file nhạc cùng thư mục với HTML -->
+    <audio id="bgMusic" loop preload="auto">
+      <source src="chochutthoi.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      const SECRET_PASSWORD = "10062005";
+
+      const music = document.getElementById("bgMusic");
+
+      function unlock() {
+        const value = document.getElementById("password").value;
+
+        if (value === SECRET_PASSWORD) {
+          document.getElementById("login").classList.add("hidden");
+          document.getElementById("home").classList.remove("hidden");
+          document.getElementById("error").textContent = "";
+
+          music.play().catch(() => {
+            // Nếu trình duyệt chặn tự phát, dùng nút Bật / Tắt nhạc.
+          });
+
+          startFlowers();
+        } else {
+          document.getElementById("error").textContent =
+            "Mật khẩu chưa đúng, bạn thử lại nhé! 💗";
+        }
+      }
+
+      document.getElementById("password").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") unlock();
+      });
+
+      function toggleMusic() {
+        if (music.paused) {
+          music.play().catch(() => {
+            alert("Bạn hãy kiểm tra file nhạc chochutthoi.mp3 nhé!");
+          });
+        } else {
+          music.pause();
+        }
+      }
+
+      function showPhoto() {
+        document.getElementById("photoSection").classList.remove("hidden");
+
+        music.play().catch(() => {});
+
+        startFlowers();
+
+        document.getElementById("photoSection").scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+
+      const flowerArea = document.getElementById("flowerArea");
+
+      function startFlowers() {
+        for (let i = 0; i < 18; i++) {
+          setTimeout(createFlower, i * 130);
+        }
+      }
+
+      function createFlower() {
+        const flower = document.createElement("span");
+        const flowers = ["🌸", "🌷", "🌹", "💖", "✨", "🌺"];
+
+        flower.className = "flower";
+        flower.textContent =
+          flowers[Math.floor(Math.random() * flowers.length)];
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.fontSize = 18 + Math.random() * 20 + "px";
+        flower.style.animationDuration = 5 + Math.random() * 5 + "s";
+
+        flowerArea.appendChild(flower);
+
+        setTimeout(() => flower.remove(), 10500);
+      }
+
+      // Sao lấp lánh trên nền
+      const canvas = document.getElementById("stars");
+      const ctx = canvas.getContext("2d");
+      let stars = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth * devicePixelRatio;
+        canvas.height = window.innerHeight * devicePixelRatio;
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+        ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+        stars = Array.from({ length: 100 }, () => ({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: Math.random() * 1.8 + 0.3,
+          a: Math.random(),
+          speed: Math.random() * 0.012 + 0.003,
+        }));
+      }
+
+      function animateStars() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        for (const s of stars) {
+          s.a += s.speed;
+
+          const opacity = 0.35 + Math.abs(Math.sin(s.a)) * 0.65;
+
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 226, 190, ${opacity})`;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = "#ff9acb";
+          ctx.fill();
+        }
+
+        requestAnimationFrame(animateStars);
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      animateStars();
+    </script>
+  </body>
+</html>
